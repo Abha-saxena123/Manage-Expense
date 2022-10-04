@@ -1,5 +1,4 @@
 import type { GetStaticProps } from "next";
-
 import styles from "../styles/Home.module.css";
 
 interface HomePageProps {
@@ -10,7 +9,11 @@ const Home: React.FC<HomePageProps> = ({ status }) => {
   return (
     <div className={styles.div} id="add-entry">
       <h1>Add Entry</h1>
-      <form className={styles.form} action="/api/handle-form" method="post">
+      <form
+        className={styles.form}
+        action="/Manage-Expense/api/handle-form"
+        method="post"
+      >
         <label className={styles.label}>
           <select id="myList" className={styles.dropdown} name={"Type"}>
             <option> ---Choose type--- </option>
@@ -57,6 +60,5 @@ const Home: React.FC<HomePageProps> = ({ status }) => {
 export default Home;
 export const getStaticProps: GetStaticProps = async (context) => {
   const status = context.params?.status || "";
-
   return { props: { status } };
 };
