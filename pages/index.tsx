@@ -1,6 +1,5 @@
-import type { GetServerSidePropsContext, NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
+import type { GetStaticProps } from "next";
+
 import styles from "../styles/Home.module.css";
 
 interface HomePageProps {
@@ -56,7 +55,8 @@ const Home: React.FC<HomePageProps> = ({ status }) => {
 };
 
 export default Home;
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const status = context.query.status || "";
+export const getStaticProps: GetStaticProps = async (context) => {
+  const status = context.params?.status || "";
+
   return { props: { status } };
-}
+};
