@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { connectToDatabase } from "../../lib/mongodb";
 
 type Data = {
-  name: string;
+  message: string;
 };
 
 export default async function handler(
@@ -20,10 +20,10 @@ export default async function handler(
       }
       console.log("1 Item inserted");
     });
-    res.status(200);
-    res.redirect("/?status=success");
+    res.status(200).send({ message: "Item inserted successfully" });
+    // res.redirect("/?status=success");
   } catch (e) {
-    res.status(500);
-    res.redirect("/?status=failure");
+    res.status(500).send({ message: "Item inserted Failed" });
+    // res.redirect("/?status=failure");
   }
 }
