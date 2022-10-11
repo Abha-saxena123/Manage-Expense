@@ -9,10 +9,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@", req.body);
   try {
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@=============================");
     let { db } = await connectToDatabase();
 
-    const newItem = req.body;
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@1111111111111111111111");
+
+    const newItem = JSON.parse(req.body);
+    console.log(
+      "@@@@@@@@@@@@@@@@@@@@@@@@@@@22222222222222222222222222222",
+      typeof newItem
+    );
     db.collection("expense").insertOne(newItem, function (err: any, res: any) {
       if (err) {
         console.log("ERROR", err);
@@ -20,10 +28,9 @@ export default async function handler(
       }
       console.log("1 Item inserted");
     });
+    console.log("########################");
     res.status(200).send({ message: "Item inserted successfully" });
-    // res.redirect("/?status=success");
   } catch (e) {
     res.status(500).send({ message: "Item inserted Failed" });
-    // res.redirect("/?status=failure");
   }
 }

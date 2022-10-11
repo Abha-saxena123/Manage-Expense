@@ -6,10 +6,30 @@ interface HomePageProps {
 }
 
 const Home: React.FC<HomePageProps> = ({ status }) => {
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    const inputs: any = {};
+    ["Type", "Category", "Date", "Amount", "Remarks"].forEach(
+      (item: string) => {
+        //@ts-ignore
+        const value = event.target.elements?.[item]?.value;
+        if (value !== "") {
+          //@ts-ignore
+          inputs[item] = value;
+        }
+      }
+    );
+
+    const response = fetch("/api/handle-form", {
+      method: "post",
+      body: JSON.stringify(inputs),
+    });
+  };
+
   return (
     <div className={styles.div} id="add-entry">
       <h1>Add Entry</h1>
-      <form className={styles.form} action="/api/handle-form" method="post">
+      <form className={styles.form} onSubmit={handleSubmit}>
         <label className={styles.label}>
           <select id="myList" className={styles.dropdown} name={"Type"}>
             <option> ---Choose type--- </option>
