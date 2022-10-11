@@ -21,13 +21,13 @@ export default async function handler(
       "@@@@@@@@@@@@@@@@@@@@@@@@@@@22222222222222222222222222222",
       typeof newItem
     );
-    // db.collection("expense").insertOne(newItem, function (err: any, res: any) {
-    //   if (err) {
-    //     console.log("ERROR", err);
-    //     throw err;
-    //   }
-    //   console.log("1 Item inserted");
-    // });
+    db.collection("expense").insertOne(newItem, function (err: any, res: any) {
+      if (err) {
+        console.log("ERROR", err);
+        throw err;
+      }
+      console.log("1 Item inserted");
+    });
     console.log("########################");
     res.status(200).send({ message: "Item inserted successfully" });
   } catch (e) {
