@@ -20,10 +20,9 @@ const Home: React.FC<HomePageProps> = ({ status }) => {
       }
     );
 
-    const response = fetch("/api/handle-form", {
-      method: "post",
-      body: JSON.stringify(inputs),
-    });
+    const response = fetch("/api/handle-form?" + new URLSearchParams(inputs));
+
+    console.log(response);
   };
 
   return (
