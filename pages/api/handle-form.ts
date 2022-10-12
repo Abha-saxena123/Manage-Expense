@@ -11,8 +11,15 @@ export default async function handler(
 ) {
   try {
     let { db } = await connectToDatabase();
+    const date = new Date(req.body.Date);
+    const day = date.toLocaleString("default", {
+      day: "2-digit",
+    });
+    const month = date.toLocaleString("default", {
+      month: "long",
+    });
 
-    const newItem = req.body;
+    const newItem = { ...req.body, day, month };
     db.collection("expense").insertOne(newItem, function (err: any, res: any) {
       if (err) {
         console.log("ERROR", err);
