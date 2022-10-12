@@ -1,4 +1,6 @@
+import { resetGlobalState } from "mobx/dist/internal";
 import type { GetStaticProps } from "next";
+import { useState } from "react";
 import styles from "../styles/Home.module.css";
 
 interface HomePageProps {
@@ -6,7 +8,8 @@ interface HomePageProps {
 }
 
 const Home: React.FC<HomePageProps> = ({ status }) => {
-  const handleSubmit = (event: any) => {
+  const [message, setMessage] = useState("");
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     const inputs: any = {};
     ["Type", "Category", "Date", "Amount", "Remarks"].forEach(
@@ -20,15 +23,24 @@ const Home: React.FC<HomePageProps> = ({ status }) => {
       }
     );
 
-    const response = fetch("/api/handle-form?" + new URLSearchParams(inputs));
+    const response = await fetch("/api/handle-form", {
+      method: "POST",
+      body: JSON.stringify(inputs),
+    });
 
-    console.log(response);
+    const form = document.getElementById("myForm") as HTMLElement;
+
+    form.reset();
+
+    response.status === 200
+      ? setMessage("Entry has been added successfully")
+      : setMessage("Oops, somthing went wrong. Please try again");
   };
 
   return (
     <div className={styles.div} id="add-entry">
       <h1>Add Entry</h1>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit} id="myForm">
         <label className={styles.label}>
           <select id="myList" className={styles.dropdown} name={"Type"}>
             <option> ---Choose type--- </option>
@@ -54,26 +66,16 @@ const Home: React.FC<HomePageProps> = ({ status }) => {
           <input type="text" name="Amount" />
         </label>
         <label className={styles.label}>
-          <div> Reamrks:</div>
+          <div> Remarks:</div>
           <input type="text" name="Remarks" />
         </label>
         <button type="submit" className={styles.submit}>
           Submit
         </button>
       </form>
-      {status && (
-        <p>
-          {status === "success"
-            ? "Entry has been added successfully"
-            : "Oops, somthing went wrong. Please try again"}
-        </p>
-      )}
+      <p>{message}</p>
     </div>
   );
 };
 
 export default Home;
-export const getStaticProps: GetStaticProps = async (context) => {
-  const status = context.params?.status || "";
-  return { props: { status } };
-};
