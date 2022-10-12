@@ -1,5 +1,3 @@
-import { resetGlobalState } from "mobx/dist/internal";
-import type { GetStaticProps } from "next";
 import { useState } from "react";
 import styles from "../styles/Home.module.css";
 
