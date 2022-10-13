@@ -1,7 +1,7 @@
 import { Db, MongoClient } from "mongodb";
 
 const MONGODB_URI =
-  "mongodb+srv://AbhaSaxena:UcP1B9icoFYogqZ9@cluster0.stxt2.mongodb.net";
+  "mongodb+srv://AbhaSaxena:b5qzh0aCWfq1yiOK@cluster0.stxt2.mongodb.net";
 const MONGODB_DB = "expense";
 
 let cachedClient: MongoClient;
